@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {% if category %}{{ category.name }}{% else %}All Plants{% endif %}
+{% endblock %}
+
+{% block content %}
+    <h1>{% if category %}{{ category.name }}{% else %}All Plants{% endif %}</h1>
+
+    <div class="controls">
+        <form action="" method="get">
+            <input type="text" name="q" placeholder="Search plants..." value="{{ request.GET.q }}">
+            <select name="sort">
+                <option value="">Default Sort</option>
+                <option value="price_asc" {% if request.GET.sort == 'price_asc' %}selected{% endif %}>Price Ascending</option>
+                <option value="price_desc" {% if request.GET.sort == 'price_desc' %}selected{% endif %}>Price Descending</option>
+            </select>
+            <button type="submit">Filter</button>
+        </form>
+    </div>
+
+    <div class="plant-list">
+        {% for plant in plants %}
+            <div class="plant-item">
+                <a href="{{ plant.get_absolute_url }}">
+                    {% if plant.image %}
+                        <img src="{{ plant.image.url }}" alt="{{ plant.name }}" style="width:100%; height: auto;">
+                    {% endif %}
+                    <h3>{{ plant.name }}</h3>
+                </a>
+                <p>${{ plant.price }}</p>
+            </div>
+        {% empty %}
+            <p>No plants found.</p>
+        {% endfor %}
+    </div>
+{% endblock %}

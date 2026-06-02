@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Store Statistics
+{% endblock %}
+
+{% block content %}
+    <h1>Store Statistics</h1>
+
+    <h2>Overall Aggregates</h2>
+    <ul>
+        <li>Total number of different plants: <strong>{{ total_plants }}</strong></li>
+        <li>Average plant price: <strong>${{ avg_price.average_price|floatformat:2 }}</strong></li>
+        <li>Total value of all in-stock plants: <strong>${{ total_value.total|floatformat:2 }}</strong></li>
+    </ul>
+
+    <hr>
+
+    <h2>Plant Popularity (by number of orders)</h2>
+    <ol>
+        {% for plant in plants_by_popularity %}
+            <li>{{ plant.name }} - Ordered {{ plant.times_ordered }} time{{ plant.times_ordered|pluralize }}</li>
+        {% empty %}
+            <li>No orders yet.</li>
+        {% endfor %}
+    </ol>
+    
+    <hr>
+    
+    <h2>Plant Revenue</h2>
+    <ol>
+        {% for plant in plants_with_revenue %}
+            <li>{{ plant.name }} - ${{ plant.revenue|floatformat:2|default:"0.00" }}</li>
+        {% empty %}
+            <li>No orders yet.</li>
+        {% endfor %}
+    </ol>
+
+    <hr>
+
+    <h2>Categories (by number of plants)</h2>
+    <ol>
+        {% for category in categories_with_plant_count %}
+            <li>{{ category.name }} - {{ category.num_plants }} plant{{ category.num_plants|pluralize }}</li>
+        {% empty %}
+            <li>No categories found.</li>
+        {% endfor %}
+    </ol>
+
+{% endblock %}

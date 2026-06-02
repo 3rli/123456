@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ plant.name }}
+{% endblock %}
+
+{% block content %}
+    <div class="plant-detail">
+        {% if plant.image %}
+            <img src="{{ plant.image.url }}" alt="{{ plant.name }}" style="max-width: 400px; float: left; margin-right: 20px;">
+        {% endif %}
+        <h1>{{ plant.name }}</h1>
+        <h2><a href="{{ plant.category.get_absolute_url }}">{{ plant.category }}</a></h2>
+        <p class="price">${{ plant.price }}</p>
+        <p>{{ plant.description|linebreaks }}</p>
+        <hr>
+        <h3>Details</h3>
+        <ul>
+            <li>In Stock: {{ plant.is_in_stock|yesno:"Yes,No" }}</li>
+            <li>Created On: {{ plant.created_at|date:"F j, Y" }}</li>
+            <li>Last Updated: {{ plant.updated_at|timesince }} ago</li>
+            <li>Published on: {{ plant.published_at|date:"F j, Y" }}</li>
+        </ul>
+    </div>
+{% endblock %}

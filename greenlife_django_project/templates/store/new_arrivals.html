@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}
+    New Arrivals & Deliveries
+{% endblock %}
+
+{% block content %}
+    <h1>New Arrivals (Last 7 Days)</h1>
+    {% if new_plants %}
+        <ul>
+        {% for plant in new_plants %}
+            <li><a href="{{ plant.get_absolute_url }}">{{ plant.name }}</a> (Added on {{ plant.created_at|date:"F d, Y" }})</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No new plants in the last 7 days.</p>
+    {% endif %}
+
+    <hr>
+
+    <h1>Orders for Delivery Today ({{ "now"|date:"F d, Y" }})</h1>
+    {% if delivery_orders_today %}
+         <ul>
+        {% for order in delivery_orders_today %}
+            <li>Order #{{ order.id }} for {{ order.customer_name }}</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No orders scheduled for delivery today.</p>
+    {% endif %}
+
+{% endblock %}

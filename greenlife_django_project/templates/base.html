@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}GreenLife Store{% endblock %}</title>
+    <style>
+        body { font-family: sans-serif; margin: 0; }
+        #header { padding: 20px; background: #2e8b57; color: white; }
+        #header h1 { margin: 0; }
+        #subheader { background: #f0f0f0; padding: 10px; border-bottom: 1px solid #ccc; }
+        #content { padding: 20px; }
+        .navigation { list-style: none; padding: 0; margin: 0; }
+        .navigation li { display: inline-block; margin-right: 15px; }
+        .navigation a { text-decoration: none; color: white; font-weight: bold; }
+        .categories { list-style: none; padding: 0; margin: 0; }
+        .categories li a { text-decoration: none; color: #333; }
+        .categories li.selected a { font-weight: bold; color: #2e8b57; }
+        .plant-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
+        .plant-item { border: 1px solid #ccc; padding: 10px; }
+        .plant-item a { text-decoration: none; color: #333; }
+        .plant-item h3 { margin: 0 0 10px 0; }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <h1><a href="{% url 'store:plant_list' %}" style="color:white; text-decoration: none;">GreenLife</a></h1>
+        <ul class="navigation">
+            <li><a href="{% url 'store:plant_list' %}">Catalog</a></li>
+            <li><a href="{% url 'store:stats' %}">Stats</a></li>
+            <li><a href="{% url 'store:new_arrivals' %}">New Arrivals</a></li>
+        </ul>
+    </div>
+    <div id="subheader">
+        <h3>Categories</h3>
+        <ul class="categories">
+            <li {% if not category %}class="selected"{% endif %}>
+                <a href="{% url 'store:plant_list' %}">All</a>
+            </li>
+            {% for c in categories %}
+                <li {% if category.slug == c.slug %}class="selected"{% endif %}>
+                    <a href="{{ c.get_absolute_url }}">{{ c.name }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div id="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>
